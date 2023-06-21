@@ -37,7 +37,7 @@ public class ChromeDriverProviderImpl implements WebDriverProvider {
 
 private WebDriver createChromeDriver(ChromeOptions options) {
     try (ChromeDriverService service = new ChromeDriverService.Builder()
-            .usingDriverExecutable(new File(webDriverConfig.getWebDriverExecutable()))
+            //.usingDriverExecutable(new File(webDriverConfig.getWebDriverExecutable()))
             .build()) {
         ChromeDriver driver = new ChromeDriver(service, options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(webDriverConfig.getImplicitlyWait()));
