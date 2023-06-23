@@ -50,7 +50,7 @@ private WebDriver createChromeDriver(ChromeOptions options) {
         ChromeOptions options = new ChromeOptions();
         if(proxyConfigHolder != null) options.setProxy(proxyProvider.getProxy(proxyConfigHolder));
         options.addArguments(UserAgentArgument.CHROME.getArgument() + webDriverConfig.getUserAgent());
-        options.setBinary("/opt/hostedtoolcache/chromium/latest/x64/chrome");
+//        options.setBinary("/opt/hostedtoolcache/chromium/latest/x64/chrome");
         return options;
     }
 
