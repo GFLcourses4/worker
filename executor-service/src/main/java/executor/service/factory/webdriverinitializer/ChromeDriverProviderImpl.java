@@ -50,6 +50,9 @@ private WebDriver createChromeDriver(ChromeOptions options) {
         ChromeOptions options = new ChromeOptions();
         if(proxyConfigHolder != null) options.setProxy(proxyProvider.getProxy(proxyConfigHolder));
         options.addArguments(UserAgentArgument.CHROME.getArgument() + webDriverConfig.getUserAgent());
+        options.addArguments("--headless");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
 //        options.setBinary("/opt/hostedtoolcache/chromium/latest/x64/chrome");
         return options;
     }
