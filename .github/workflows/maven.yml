@@ -21,6 +21,7 @@ jobs:
     permissions: write-all
     steps:
       - uses: actions/checkout@v3
+      - uses: nanasess/setup-chromedriver@v2
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
@@ -30,5 +31,5 @@ jobs:
       - name: Build and Run Tests
         run: mvn test --batch-mode --fail-at-end --file executor-service/pom.xml
       - name: Publish Test Report
-        if: ${{ always() }} #publish report even if the tests are failing
+        if: ${{ always() }} # publish report even if the tests are failing
         uses: scacap/action-surefire-report@v1
