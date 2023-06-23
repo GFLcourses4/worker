@@ -38,6 +38,7 @@ public class ChromeDriverProviderImpl implements WebDriverProvider {
 private WebDriver createChromeDriver(ChromeOptions options) {
     try (ChromeDriverService service = new ChromeDriverService.Builder()
             //.usingDriverExecutable(new File(webDriverConfig.getWebDriverExecutable()))
+
             .build()) {
         ChromeDriver driver = new ChromeDriver(service, options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(webDriverConfig.getImplicitlyWait()));
@@ -49,6 +50,7 @@ private WebDriver createChromeDriver(ChromeOptions options) {
         ChromeOptions options = new ChromeOptions();
         if(proxyConfigHolder != null) options.setProxy(proxyProvider.getProxy(proxyConfigHolder));
         options.addArguments(UserAgentArgument.CHROME.getArgument() + webDriverConfig.getUserAgent());
+        options.setBinary("/opt/hostedtoolcache/chromium/latest/x64/chrome");
         return options;
     }
 
