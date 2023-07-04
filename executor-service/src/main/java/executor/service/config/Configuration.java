@@ -13,6 +13,9 @@ import executor.service.stepexecution.ClickCss;
 import executor.service.stepexecution.ClickXpath;
 import executor.service.stepexecution.Sleep;
 import executor.service.stepexecution.StepExecution;
+import org.apache.commons.configuration2.FileBasedConfiguration;
+import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
+import org.apache.commons.configuration2.builder.fluent.Parameters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,12 +26,15 @@ import java.util.List;
 @Config
 public class Configuration {
     private final PropertiesConfiguration properties;
-    private static final String CONFIG_FILE_PATH = "config.properties";
 
     public Configuration() {
         try {
-            Configurations configs = new Configurations();
-            properties = configs.properties(CONFIG_FILE_PATH);
+            Parameters params = new Parameters();
+            FileBasedConfigurationBuilder<PropertiesConfiguration> builder =
+                    new FileBasedConfigurationBuilder<>(PropertiesConfiguration.class)
+                            .configure(params.properties()
+                                    .setFileName("config.properties"));
+            properties = builder.getConfiguration();
         } catch (Exception ex) {
             throw new CantReadProperties(ex.getMessage());
         }
