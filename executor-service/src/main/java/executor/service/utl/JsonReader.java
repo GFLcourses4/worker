@@ -1,7 +1,7 @@
 package executor.service.utl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import executor.service.exception.ResourceFileNotFoundException;
+import executor.service.exception.JsonReaderException;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,12 +13,20 @@ public class JsonReader {
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
 
-    public static <T> T[] parseToArray(InputStream inputStream, Class<T> tClass) throws IOException {
-        return objectMapper.readerForArrayOf(tClass).readValue(inputStream);
+    public static <T> T[] parseToArray(InputStream inputStream, Class<T> tClass) {
+        try {
+            return objectMapper.readerForArrayOf(tClass).readValue(inputStream);
+        } catch (IOException e) {
+            throw new JsonReaderException(e);
+        }
     }
 
-    public static <T> List<T> parseToList(File file, Class<T> tClass) throws IOException {
-        return objectMapper.readerForListOf(tClass).readValue(file);
+    public static <T> List<T> parseToList(File file, Class<T> tClass) {
+        try {
+            return objectMapper.readerForListOf(tClass).readValue(file);
+        } catch (IOException e) {
+            throw new JsonReaderException(e);
+        }
     }
 
     public static ObjectMapper getObjectMapper() {
@@ -27,12 +35,9 @@ public class JsonReader {
 
     public static <T> T[] parseResourceToArray(String fileName, Class<T> tClass) {
         try (InputStream inputStream = JsonReader.class.getClassLoader().getResourceAsStream(fileName)) {
-            if (inputStream == null) {
-                throw new ResourceFileNotFoundException(fileName); // todo or can be log
-            }
             return JsonReader.parseToArray(inputStream, tClass);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new JsonReaderException(e);
         }
     }
 
@@ -40,3 +45,5 @@ public class JsonReader {
         return Arrays.asList(parseResourceToArray(fileName, tClass));
     }
 }
+
+
