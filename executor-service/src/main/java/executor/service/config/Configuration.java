@@ -13,14 +13,12 @@ import executor.service.stepexecution.ClickCss;
 import executor.service.stepexecution.ClickXpath;
 import executor.service.stepexecution.Sleep;
 import executor.service.stepexecution.StepExecution;
-import org.apache.commons.configuration2.FileBasedConfiguration;
 import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
 import org.apache.commons.configuration2.builder.fluent.Parameters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.apache.commons.configuration2.PropertiesConfiguration;
-import org.apache.commons.configuration2.builder.fluent.Configurations;
 import java.util.List;
 
 @Config
