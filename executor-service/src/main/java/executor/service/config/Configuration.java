@@ -1,5 +1,4 @@
 package executor.service.config;
-
 import executor.service.ScenarioExecutor;
 import executor.service.ScenarioExecutorImpl;
 import executor.service.annotation.Bean;
