@@ -17,36 +17,32 @@ import executor.service.stepexecution.StepExecution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.io.InputStream;
+import org.apache.commons.configuration2.PropertiesConfiguration;
+import org.apache.commons.configuration2.builder.fluent.Configurations;
 import java.util.List;
-import java.util.Properties;
 
 @Config
 public class Configuration {
-    private final Properties properties;
-    private static final String CONFIG_FILE_PATH = "/config.properties";
-
+    private final PropertiesConfiguration properties;
+    private static final String CONFIG_FILE_PATH = "config.properties";
 
     public Configuration() {
-        properties = new Properties();
-        try (InputStream inputStream = getClass().getResourceAsStream(CONFIG_FILE_PATH)) {
-            properties.load(inputStream);
-        } catch (IOException ex) {
+        try {
+            Configurations configs = new Configurations();
+            properties = configs.properties(CONFIG_FILE_PATH);
+        } catch (Exception ex) {
             throw new CantReadProperties(ex.getMessage());
         }
     }
-
     @Bean
     public WebDriverConfigDto webDriverConfigDto() {
         WebDriverConfigDto config = new WebDriverConfigDto();
-        config.setWebDriverExecutable(properties.getProperty(PropertyKey.WEB_DRIVER_EXECUTABLE.getKey()));
-        config.setUserAgent(properties.getProperty(PropertyKey.USER_AGENT.getKey()));
-        config.setPageLoadTimeout(Long.parseLong(properties.getProperty(PropertyKey.PAGE_LOAD_TIMEOUT.getKey())));
-        config.setImplicitlyWait(Long.parseLong(properties.getProperty(PropertyKey.IMPLICITLY_WAIT.getKey())));
+        config.setWebDriverExecutable(properties.getString(PropertyKey.WEB_DRIVER_EXECUTABLE.getKey()));
+        config.setUserAgent(properties.getString(PropertyKey.USER_AGENT.getKey()));
+        config.setPageLoadTimeout(properties.getLong(PropertyKey.PAGE_LOAD_TIMEOUT.getKey()));
+        config.setImplicitlyWait(properties.getLong(PropertyKey.IMPLICITLY_WAIT.getKey()));
         return config;
     }
-
     @Bean
     public ScenarioExecutor scenarioExecutor() {
         Logger scenario_logger = LoggerFactory.getLogger("SCENARIO_LOGGER");
@@ -57,9 +53,8 @@ public class Configuration {
         );
         return LoggingProxyProvider.createProxy(new ScenarioExecutorImpl(steps), ScenarioExecutor.class, scenario_logger);
     }
-
     @Bean
-    public ProxySourcesClient proxySourcesClient(){
+    public ProxySourcesClient proxySourcesClient() {
         return new ProxySourcesClientImpl(new JsonProxySources());
     }
 }
