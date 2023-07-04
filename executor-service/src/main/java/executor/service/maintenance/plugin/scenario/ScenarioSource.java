@@ -1,4 +1,4 @@
-package executor.service;
+package executor.service.maintenance.plugin.scenario;
 
 import executor.service.model.ScenarioDto;
 

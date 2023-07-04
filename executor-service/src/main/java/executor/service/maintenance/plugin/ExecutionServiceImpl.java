@@ -1,6 +1,7 @@
-package executor.service;
+package executor.service.maintenance.plugin;
 
 import executor.service.annotation.Component;
+import executor.service.maintenance.plugin.scenario.ScenarioSourceListener;
 import executor.service.model.ScenarioDto;
 import org.openqa.selenium.WebDriver;
 
