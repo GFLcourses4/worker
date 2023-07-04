@@ -1,4 +1,4 @@
-package executor.service.maintenance.plugin;
+package executor.service.maintenance;
 
 import executor.service.annotation.Component;
 import executor.service.maintenance.plugin.scenario.ScenarioSourceListener;

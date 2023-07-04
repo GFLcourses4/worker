@@ -1,4 +1,4 @@
-package executor.service.maintenance.plugin;
+package executor.service.maintenance;
 
 import executor.service.maintenance.plugin.scenario.ScenarioSourceListener;
 import org.openqa.selenium.WebDriver;

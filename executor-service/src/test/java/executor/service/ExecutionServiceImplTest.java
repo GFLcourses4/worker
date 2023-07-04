@@ -1,9 +1,9 @@
 package executor.service;
 
-import executor.service.maintenance.plugin.ExecutionService;
-import executor.service.maintenance.plugin.ExecutionServiceImpl;
-import executor.service.maintenance.plugin.ScenarioExecutor;
-import executor.service.maintenance.plugin.ScenarioExecutorImpl;
+import executor.service.maintenance.ExecutionService;
+import executor.service.maintenance.ExecutionServiceImpl;
+import executor.service.maintenance.ScenarioExecutor;
+import executor.service.maintenance.ScenarioExecutorImpl;
 import executor.service.maintenance.plugin.scenario.ScenarioListener;
 import executor.service.maintenance.plugin.scenario.ScenarioSourceListener;
 import org.junit.jupiter.api.Assertions;

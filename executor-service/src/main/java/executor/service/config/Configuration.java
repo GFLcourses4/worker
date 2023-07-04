@@ -1,7 +1,7 @@
 package executor.service.config;
 
-import executor.service.maintenance.plugin.ScenarioExecutor;
-import executor.service.maintenance.plugin.ScenarioExecutorImpl;
+import executor.service.maintenance.ScenarioExecutor;
+import executor.service.maintenance.ScenarioExecutorImpl;
 import executor.service.annotation.Bean;
 import executor.service.annotation.Config;
 import executor.service.exception.CantReadPropertiesException;
