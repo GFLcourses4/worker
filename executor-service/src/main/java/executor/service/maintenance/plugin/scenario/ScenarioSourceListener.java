@@ -5,6 +5,6 @@ import executor.service.model.ScenarioDto;
 import java.util.Optional;
 
 public interface ScenarioSourceListener {
-    void execute();
+    void prepareScenarios();
     Optional<ScenarioDto> getScenario();
 }

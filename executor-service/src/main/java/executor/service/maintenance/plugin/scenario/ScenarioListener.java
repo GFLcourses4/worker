@@ -17,7 +17,7 @@ public class ScenarioListener implements ScenarioSourceListener {
     }
 
     @Override
-    public void execute() {
+    public void prepareScenarios() {
         scenarios = new ConcurrentLinkedDeque<>(scenarioSource.getScenarios());
     }
 
