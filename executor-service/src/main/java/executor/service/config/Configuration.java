@@ -4,7 +4,7 @@ import executor.service.ScenarioExecutor;
 import executor.service.ScenarioExecutorImpl;
 import executor.service.annotation.Bean;
 import executor.service.annotation.Config;
-import executor.service.exception.CantReadProperties;
+import executor.service.exception.CantReadPropertiesException;
 import executor.service.maintenance.plugin.proxy.JsonProxySources;
 import executor.service.maintenance.plugin.proxy.ProxySourcesClient;
 import executor.service.maintenance.plugin.proxy.ProxySourcesClientImpl;
@@ -33,7 +33,7 @@ public class Configuration {
         try (InputStream inputStream = getClass().getResourceAsStream(CONFIG_FILE_PATH)) {
             properties.load(inputStream);
         } catch (IOException ex) {
-            throw new CantReadProperties(ex.getMessage());
+            throw new CantReadPropertiesException(ex.getMessage());
         }
     }
 
