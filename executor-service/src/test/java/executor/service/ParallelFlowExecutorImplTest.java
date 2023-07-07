@@ -9,7 +9,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.openqa.selenium.WebDriver;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import static org.mockito.Mockito.*;
 
@@ -39,7 +42,7 @@ class ParallelFlowExecutorImplTest {
     }
 
     @Test
-    public void runInParallelFlowTest() {
+    public void runInParallelFlowTest() throws InterruptedException {
         ProxyConfigHolderDto proxyConfig = new ProxyConfigHolderDto();
         when(proxySourcesClient.getProxy()).thenReturn(proxyConfig);
 
@@ -53,6 +56,9 @@ class ParallelFlowExecutorImplTest {
 
         parallelFlowExecutor.runInParallelFlow();
 
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.awaitTermination(1, TimeUnit.SECONDS);
+        executorService.shutdown();
 
         verify(proxySourcesClient, times(1)).getProxy();
         verify(scenarioSourceListener, times(1)).execute();
@@ -60,6 +66,7 @@ class ParallelFlowExecutorImplTest {
         verify(threadPoolConfigDto, times(1)).getKeepAliveTime();
         verify(driverProvider, times(corePoolSize)).create(proxyConfig);
         verify(executionService, times(corePoolSize)).execute(eq(driver), eq(scenarioSourceListener), eq(scenarioExecutor));
-
     }
+
+
 }
