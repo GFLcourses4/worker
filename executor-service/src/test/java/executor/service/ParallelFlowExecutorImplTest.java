@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.openqa.selenium.WebDriver;
 
+import java.util.concurrent.ThreadPoolExecutor;
+
 import static org.mockito.Mockito.*;
 
 class ParallelFlowExecutorImplTest {
@@ -38,18 +40,26 @@ class ParallelFlowExecutorImplTest {
 
     @Test
     public void runInParallelFlowTest() {
-        WebDriver driver = Mockito.mock(WebDriver.class);
-        ProxyConfigHolderDto proxy = mock(ProxyConfigHolderDto.class);
+        ProxyConfigHolderDto proxyConfig = new ProxyConfigHolderDto();
+        when(proxySourcesClient.getProxy()).thenReturn(proxyConfig);
 
-        when(proxySourcesClient.getProxy()).thenReturn(proxy);
-        when(threadPoolConfigDto.getCorePoolSize()).thenReturn(NUMBER_OF_THREADS);
-        when(driverProvider.create(proxy)).thenReturn(driver);
+        int corePoolSize = 10;
+        long keepAliveTime = 500;
+        when(threadPoolConfigDto.getCorePoolSize()).thenReturn(corePoolSize);
+        when(threadPoolConfigDto.getKeepAliveTime()).thenReturn(keepAliveTime);
+
+        WebDriver driver = Mockito.mock(WebDriver.class);
+        when(driverProvider.create(proxyConfig)).thenReturn(driver);
 
         parallelFlowExecutor.runInParallelFlow();
 
-        verify(proxySourcesClient, times(NUMBER_OF_GET_PROXY_CALL)).getProxy();
-        verify(scenarioSourceListener, times(NUMBER_OF_EXECUTE_CALL)).execute();
-        verify(executionService, times(NUMBER_OF_THREADS))
-                .execute(eq(driver), eq(scenarioSourceListener), eq(scenarioExecutor));
+
+        verify(proxySourcesClient, times(1)).getProxy();
+        verify(scenarioSourceListener, times(1)).execute();
+        verify(threadPoolConfigDto, atLeastOnce()).getCorePoolSize();
+        verify(threadPoolConfigDto, times(1)).getKeepAliveTime();
+        verify(driverProvider, times(corePoolSize)).create(proxyConfig);
+        verify(executionService, times(corePoolSize)).execute(eq(driver), eq(scenarioSourceListener), eq(scenarioExecutor));
+
     }
 }
