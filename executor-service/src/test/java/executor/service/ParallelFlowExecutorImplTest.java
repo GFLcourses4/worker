@@ -6,13 +6,9 @@ import executor.service.model.ProxyConfigHolderDto;
 import executor.service.model.ThreadPoolConfigDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.openqa.selenium.WebDriver;
 
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 class ParallelFlowExecutorImplTest {
@@ -49,24 +45,11 @@ class ParallelFlowExecutorImplTest {
         when(threadPoolConfigDto.getCorePoolSize()).thenReturn(NUMBER_OF_THREADS);
         when(driverProvider.create(proxy)).thenReturn(driver);
 
-        ArgumentCaptor<WebDriver> driverCaptor = ArgumentCaptor.forClass(WebDriver.class);
-        ArgumentCaptor<ScenarioSourceListener> listenerCaptor = ArgumentCaptor.forClass(ScenarioSourceListener.class);
-        ArgumentCaptor<ScenarioExecutor> executorCaptor = ArgumentCaptor.forClass(ScenarioExecutor.class);
-
         parallelFlowExecutor.runInParallelFlow();
-
-        verify(executionService, times(NUMBER_OF_THREADS))
-                .execute(driverCaptor.capture(), listenerCaptor.capture(), executorCaptor.capture());
-
-        List<WebDriver> capturedDrivers = driverCaptor.getAllValues();
-        List<ScenarioSourceListener> capturedListeners = listenerCaptor.getAllValues();
-        List<ScenarioExecutor> capturedExecutors = executorCaptor.getAllValues();
-
-        assertEquals(NUMBER_OF_THREADS, capturedDrivers.size());
-        assertEquals(NUMBER_OF_THREADS, capturedListeners.size());
-        assertEquals(NUMBER_OF_THREADS, capturedExecutors.size());
 
         verify(proxySourcesClient, times(NUMBER_OF_GET_PROXY_CALL)).getProxy();
         verify(scenarioSourceListener, times(NUMBER_OF_EXECUTE_CALL)).execute();
+        verify(executionService, times(NUMBER_OF_THREADS))
+                .execute(eq(driver), eq(scenarioSourceListener), eq(scenarioExecutor));
     }
 }
