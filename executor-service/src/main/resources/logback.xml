@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="db" class="executor.service.appender.LogStorageAppender">
+        <logStorageManager class="executor.service.appender.manager.LogDatabaseManager">
+            <url>jdbc:h2:/tmp/logs</url>
+            <username>root</username>
+            <password>root</password>
+        </logStorageManager>
+    </appender>
+    <root level="INFO">
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="db"/>
+    </root>
+</configuration>
