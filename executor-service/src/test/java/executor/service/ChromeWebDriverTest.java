@@ -18,21 +18,13 @@ import org.openqa.selenium.WebElement;
 
 import java.util.concurrent.TimeUnit;
 
-@SpringBootTest
-@ContextConfiguration(classes = CustomConfiguration.class)
 class ChromeWebDriverTest {
 
     private WebDriverProvider driverProvider;
-    private WebDriverConfigDto webDriverConfigDto;
-
-    @Autowired
-    public ChromeWebDriverTest(WebDriverProvider driverProvider, WebDriverConfigDto webDriverConfigDto) {
-        this.driverProvider = driverProvider;
-        this.webDriverConfigDto = webDriverConfigDto;
-    }
 
     @BeforeEach
     void setup() {
+        WebDriverConfigDto webDriverConfigDto = new WebDriverConfigDto("/usr/local/bin/chromedriver", "desktop", 3000L, 3L);
         driverProvider = new ChromeDriverProviderImpl(new ProxyProviderImpl(), webDriverConfigDto);
     }
 
