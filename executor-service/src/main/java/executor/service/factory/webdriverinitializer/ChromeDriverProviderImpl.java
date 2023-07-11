@@ -1,8 +1,7 @@
 package executor.service.factory.webdriverinitializer;
 
-import executor.service.annotation.Component;
+import org.springframework.stereotype.Component;
 import executor.service.factory.webdriverinitializer.proxy.ProxyProvider;
-import executor.service.factory.webdriverinitializer.setting.DriverProperty;
 import executor.service.factory.webdriverinitializer.setting.UserAgentArgument;
 import executor.service.model.ProxyConfigHolderDto;
 import executor.service.model.WebDriverConfigDto;
@@ -35,16 +34,16 @@ public class ChromeDriverProviderImpl implements WebDriverProvider {
         return create(null);
     }
 
-private WebDriver createChromeDriver(ChromeOptions options) {
-    try (ChromeDriverService service = new ChromeDriverService.Builder()
-            .usingDriverExecutable(new File(webDriverConfig.getWebDriverExecutable()))
-            .build()) {
-        ChromeDriver driver = new ChromeDriver(service, options);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(webDriverConfig.getImplicitlyWait()));
-        driver.manage().timeouts().pageLoadTimeout(Duration.ofMillis(webDriverConfig.getPageLoadTimeout()));
-        return driver;
+    private WebDriver createChromeDriver(ChromeOptions options) {
+        try (ChromeDriverService service = new ChromeDriverService.Builder()
+                .usingDriverExecutable(new File(webDriverConfig.getWebDriverExecutable()))
+                .build()) {
+            ChromeDriver driver = new ChromeDriver(service, options);
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(webDriverConfig.getImplicitlyWait()));
+            driver.manage().timeouts().pageLoadTimeout(Duration.ofMillis(webDriverConfig.getPageLoadTimeout()));
+            return driver;
+        }
     }
-}
     private ChromeOptions createChromeOptions(ProxyConfigHolderDto proxyConfigHolder) {
         ChromeOptions options = new ChromeOptions();
         if(proxyConfigHolder != null) options.setProxy(proxyProvider.getProxy(proxyConfigHolder));

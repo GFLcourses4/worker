@@ -1,15 +1,26 @@
 package executor.service.model;
 
-import java.util.Objects;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 
+import java.util.Objects;
+@Configuration
 public class WebDriverConfigDto {
+    @Value("${executorservice.common.webDriverExecutable}")
     private String webDriverExecutable;
+
+    @Value("${executorservice.common.userAgent}")
     private String userAgent;
+
+    @Value("${executorservice.common.pageLoadTimeout}")
     private Long pageLoadTimeout;
+
+    @Value("${executorservice.common.driverWait}")
     private Long implicitlyWait;
 
     public WebDriverConfigDto() {
     }
+
     public WebDriverConfigDto(String webDriverExecutable, String userAgent,
                               Long pageLoadTimeout, Long implicitlyWait) {
         this.webDriverExecutable = webDriverExecutable;
@@ -72,5 +83,4 @@ public class WebDriverConfigDto {
                 ", implicitlyWait=" + implicitlyWait +
                 '}';
     }
-
 }

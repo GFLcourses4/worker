@@ -6,8 +6,11 @@ import executor.service.factory.webdriverinitializer.WebDriverProvider;
 import executor.service.factory.webdriverinitializer.proxy.ProxyProviderImpl;
 import executor.service.model.WebDriverConfigDto;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
+
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -15,16 +18,25 @@ import org.openqa.selenium.WebElement;
 
 import java.util.concurrent.TimeUnit;
 
+@SpringBootTest
+@ContextConfiguration(classes = CustomConfiguration.class)
 class ChromeWebDriverTest {
+
     private WebDriverProvider driverProvider;
+    private WebDriverConfigDto webDriverConfigDto;
+
+    @Autowired
+    public ChromeWebDriverTest(WebDriverProvider driverProvider, WebDriverConfigDto webDriverConfigDto) {
+        this.driverProvider = driverProvider;
+        this.webDriverConfigDto = webDriverConfigDto;
+    }
 
     @BeforeEach
     void setup() {
-        driverProvider = new ChromeDriverProviderImpl(new ProxyProviderImpl(), createWebDriverConfig());
+        driverProvider = new ChromeDriverProviderImpl(new ProxyProviderImpl(), webDriverConfigDto);
     }
 
     @Test
-    @Disabled
     void testNavigateToCern() throws InterruptedException {
         WebDriver webDriver = driverProvider.create();
         webDriver.get("http://info.cern.ch");
@@ -33,7 +45,6 @@ class ChromeWebDriverTest {
     }
 
     @Test
-    @Disabled
     void testClickElementByXPath() throws InterruptedException {
         WebDriver webDriver = driverProvider.create();
         webDriver.get("http://info.cern.ch");
@@ -42,7 +53,9 @@ class ChromeWebDriverTest {
         TimeUnit.SECONDS.sleep(2);
         element.click();
         TimeUnit.SECONDS.sleep(5);
-        webDriver.quit();    }
+        webDriver.quit();
+    }
+
     @Test
     void testGoogleSearch() throws InterruptedException {
         WebDriver webDriver = driverProvider.create();
@@ -56,9 +69,5 @@ class ChromeWebDriverTest {
         element.sendKeys(Keys.ENTER);
         TimeUnit.SECONDS.sleep(5);
         webDriver.quit();
-    }
-    private WebDriverConfigDto createWebDriverConfig() {
-        CustomConfiguration configuration = new CustomConfiguration();
-        return configuration.webDriverConfigDto();
     }
 }

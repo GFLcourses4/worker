@@ -1,6 +1,6 @@
 package executor.service.factory.webdriverinitializer.proxy;
 
-import executor.service.annotation.Component;
+import org.springframework.stereotype.Component;
 import executor.service.model.ProxyConfigHolderDto;
 import org.openqa.selenium.Proxy;
 @Component
