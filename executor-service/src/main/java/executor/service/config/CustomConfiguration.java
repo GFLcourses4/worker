@@ -3,14 +3,12 @@ package executor.service.config;
 import executor.service.ScenarioExecutor;
 import executor.service.ScenarioExecutorImpl;
 import executor.service.annotation.Bean;
-import executor.service.annotation.Config;
 import executor.service.factory.webdriverinitializer.ChromeDriverProviderImpl;
 import executor.service.factory.webdriverinitializer.WebDriverProvider;
 import executor.service.factory.webdriverinitializer.proxy.ProxyProviderImpl;
 import executor.service.maintenance.plugin.proxy.JsonProxySources;
 import executor.service.maintenance.plugin.proxy.ProxySourcesClient;
 import executor.service.maintenance.plugin.proxy.ProxySourcesClientImpl;
-import executor.service.model.ThreadPoolConfigDto;
 import executor.service.model.WebDriverConfigDto;
 import executor.service.logger.LoggingProxyProvider;
 import executor.service.stepexecution.ClickCss;
@@ -28,7 +26,7 @@ import org.springframework.core.env.Environment;
 import java.util.List;
 
 @Configuration
-@PropertySource("classpath:config.properties")
+@PropertySource("classpath:application.properties")
 @ComponentScan("executor.service")
 public class CustomConfiguration {
 
