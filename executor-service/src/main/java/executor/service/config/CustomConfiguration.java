@@ -26,7 +26,7 @@ import org.springframework.core.env.Environment;
 import java.util.List;
 
 @Configuration
-@PropertySource("classpath:application.properties")
+@PropertySource("classpath:config.properties")
 @ComponentScan("executor.service")
 public class CustomConfiguration {
 
