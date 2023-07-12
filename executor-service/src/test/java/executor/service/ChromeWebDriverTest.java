@@ -1,12 +1,11 @@
 package executor.service;
 
-import executor.service.config.CustomConfiguration;
 import executor.service.factory.webdriverinitializer.ChromeDriverProviderImpl;
 import executor.service.factory.webdriverinitializer.WebDriverProvider;
 import executor.service.factory.webdriverinitializer.proxy.ProxyProviderImpl;
 import executor.service.model.WebDriverConfigDto;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
+
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -16,15 +15,16 @@ import org.openqa.selenium.WebElement;
 import java.util.concurrent.TimeUnit;
 
 class ChromeWebDriverTest {
+
     private WebDriverProvider driverProvider;
 
-//    @BeforeEach
-//    void setup() {
-//        driverProvider = new ChromeDriverProviderImpl(new ProxyProviderImpl(), createWebDriverConfig());
-//    }
+    @BeforeEach
+    void setup() {
+        WebDriverConfigDto webDriverConfigDto = new WebDriverConfigDto("/usr/local/bin/chromedriver", "desktop", 3000L, 3L);
+        driverProvider = new ChromeDriverProviderImpl(new ProxyProviderImpl(), webDriverConfigDto);
+    }
 
     @Test
-    @Disabled
     void testNavigateToCern() throws InterruptedException {
         WebDriver webDriver = driverProvider.create();
         webDriver.get("http://info.cern.ch");
@@ -33,7 +33,6 @@ class ChromeWebDriverTest {
     }
 
     @Test
-    @Disabled
     void testClickElementByXPath() throws InterruptedException {
         WebDriver webDriver = driverProvider.create();
         webDriver.get("http://info.cern.ch");
@@ -42,9 +41,10 @@ class ChromeWebDriverTest {
         TimeUnit.SECONDS.sleep(2);
         element.click();
         TimeUnit.SECONDS.sleep(5);
-        webDriver.quit();    }
+        webDriver.quit();
+    }
+
     @Test
-    @Disabled
     void testGoogleSearch() throws InterruptedException {
         WebDriver webDriver = driverProvider.create();
         webDriver.get("https://www.google.com/");
@@ -58,8 +58,4 @@ class ChromeWebDriverTest {
         TimeUnit.SECONDS.sleep(5);
         webDriver.quit();
     }
-//    private WebDriverConfigDto createWebDriverConfig() {
-//        CustomConfiguration configuration = new CustomConfiguration();
-//        return configuration.webDriverConfigDto();
-//    }
 }
