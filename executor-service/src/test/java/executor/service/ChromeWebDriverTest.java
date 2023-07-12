@@ -1,6 +1,5 @@
 package executor.service;
 
-import executor.service.config.CustomConfiguration;
 import executor.service.factory.webdriverinitializer.ChromeDriverProviderImpl;
 import executor.service.factory.webdriverinitializer.WebDriverProvider;
 import executor.service.factory.webdriverinitializer.proxy.ProxyProviderImpl;
@@ -8,9 +7,6 @@ import executor.service.model.WebDriverConfigDto;
 import org.junit.jupiter.api.BeforeEach;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
